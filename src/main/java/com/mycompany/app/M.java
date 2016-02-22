@@ -104,4 +104,15 @@ public class M {
         return ret;
 
     }
+
+    public void print() {
+        System.out.println("The sparse matrix is ");
+        for (int idx_i = 0; idx_i < i; idx_i++) {
+            for (int idx_j = 0; idx_j < j; idx_j++) {
+                System.out.print(get(idx_i, idx_j) + "\t");
+            }
+            System.out.println();
+        }
+    }
+
 }

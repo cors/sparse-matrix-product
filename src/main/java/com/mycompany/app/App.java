@@ -1,22 +1,12 @@
 package com.mycompany.app;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-
-import static java.util.stream.IntStream.*;
-
-import org.apache.commons.collections.primitives.ArrayIntList;
 
 /**
  * Hello world!
  */
 public class App {
     public static void main(String[] args) {
-        long t1 = System.currentTimeMillis();
 
         System.out.println("-=Start=-");
 
@@ -27,35 +17,32 @@ public class App {
 //      создать объект класса суппорт матриц для манипуляций с последними
 
 
-        SparseMatrixSupport<M> sparse_matrix_support = new SparseMatrixSupportImpl();
-        M mtrx1 = generateSparseMatrix(10, 10, 1000);
-        M mtrx2 = generateSparseMatrix(10, 10, 1000);
-//        mtrx1.print();
-//        mtrx2.print();
-        M mtrx3 = sparse_matrix_support.multiply(mtrx1, mtrx2);
-//        mtrx3.print();
-        M mtrx4 = generateSparseMatrix(10, 10, 1000);
-        M mtrx5 = sparse_matrix_support.fromStream(sparse_matrix_support.toStream(mtrx4));
+        M sm01 = smCreate(10, 10, 1000);
+        M sm02 = smCreate(10, 10, 1000);
+sm01.print();
+sm02.print();
 
+
+        SparseMatrixSupport<M> sparse_matrix_support = new SparseMatrixSupportImpl();
+        M sm03 = sparse_matrix_support.multiply(sm01, sm02);
+sm03.print();
+
+
+        M sm04 = smCreate(10, 10, 1000);
+        M sm05 = sparse_matrix_support.fromStream(sparse_matrix_support.toStream(sm04));
+
+sm05.print();
 
         System.out.println("-=Stop=-");
 
 
-//      перегнать range в массив целых чисел
-
-//        M matrix01 = generateSparseMatrix(5, 10, 1000);
-
-
-
-        long t2 = System.currentTimeMillis();
-        System.out.println("Execution time: " + (t2 - t1) / 1000 + " sec ");
     }
 
 
 //     генерация матрицы классическим способом - генерируем случайные значения на лету и тут же
     // скармливаем в качестве параметра методу M.put
 
-    static M generateSparseMatrix(int rowCount, int columnCount, int maxNotNullElements) {
+    static M smCreate(int rowCount, int columnCount, int maxNotNullElements) {
 
         try {
             Thread.sleep(1);

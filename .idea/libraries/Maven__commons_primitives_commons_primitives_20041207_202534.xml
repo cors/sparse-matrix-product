@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: commons-primitives:commons-primitives:20041207.202534">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-primitives/commons-primitives/20041207.202534/commons-primitives-20041207.202534.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-primitives/commons-primitives/20041207.202534/commons-primitives-20041207.202534-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-primitives/commons-primitives/20041207.202534/commons-primitives-20041207.202534-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
