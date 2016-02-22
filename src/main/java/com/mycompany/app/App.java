@@ -11,25 +11,19 @@ public class App {
         System.out.println("-=Start=-");
 
 
-//        создать числовой ряд от 0 до 100 по аналогии с питоновским range
-//        Stream<Integer> stream = IntStream.range(1, 100).boxed();
-
-//      создать объект класса суппорт матриц для манипуляций с последними
-
-
-        M sm01 = smCreate(10, 10, 1000);
-        M sm02 = smCreate(10, 10, 1000);
+        Matrix sm01 = smCreate(10, 10, 1000);
+        Matrix sm02 = smCreate(10, 10, 1000);
 sm01.print();
 sm02.print();
 
 
-        SparseMatrixSupport<M> sparse_matrix_support = new SparseMatrixSupportImpl();
-        M sm03 = sparse_matrix_support.multiply(sm01, sm02);
+        SparseMatrixSupport<Matrix> sparse_matrix_support = new SparseMatrixSupportImpl();
+        Matrix sm03 = sparse_matrix_support.multiply(sm01, sm02);
 sm03.print();
 
 
-        M sm04 = smCreate(10, 10, 1000);
-        M sm05 = sparse_matrix_support.fromStream(sparse_matrix_support.toStream(sm04));
+        Matrix sm04 = smCreate(10, 10, 1000);
+        Matrix sm05 = sparse_matrix_support.fromStream(sparse_matrix_support.toStream(sm04));
 
 sm05.print();
 
@@ -40,9 +34,9 @@ sm05.print();
 
 
 //     генерация матрицы классическим способом - генерируем случайные значения на лету и тут же
-    // скармливаем в качестве параметра методу M.put
+    // скармливаем в качестве параметра методу Matrix.put
 
-    static M smCreate(int rowCount, int columnCount, int maxNotNullElements) {
+    static Matrix smCreate(int rowCount, int columnCount, int maxNotNullElements) {
 
         try {
             Thread.sleep(1);
@@ -50,9 +44,9 @@ sm05.print();
             e.printStackTrace();
         }
 
-//        создать матрицу конструктором типа  M
+//        создать матрицу конструктором типа  Matrix
 
-        M matrix = new M(rowCount, columnCount);
+        Matrix matrix = new Matrix(rowCount, columnCount);
 
 //        получить рандомные значения
         Random random = new Random(System.currentTimeMillis());

@@ -24,10 +24,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="my-app" />
+        <module name="sparse-matrix-product-src" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="my-app" target="1.8" />
+      <module name="sparse-matrix-product-src" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -6,17 +6,17 @@ import java.util.stream.Stream;
 /**
  * Created by Andrei on 20.02.2016.
  */
-public class SparseMatrixSupportImpl implements SparseMatrixSupport<M> {
+public class SparseMatrixSupportImpl implements SparseMatrixSupport<Matrix> {
 
 
-    public Stream<Integer> toStream(M matrix) {
+    public Stream<Integer> toStream(Matrix matrix) {
         Stream<Integer> targetStream = Stream.generate(new SparseMatrixSupplier(matrix));
         return targetStream.limit( (long) matrix.getI() * (long) matrix.getJ() + 2L);
     }
 
-    public M fromStream(Stream<Integer> stream) {
+    public Matrix fromStream(Stream<Integer> stream) {
 
-        final M[] matrix = {null};
+        final Matrix[] matrix = {null};
 
         stream.forEach(new Consumer<Integer>() {
             long request = 0;
@@ -36,7 +36,7 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<M> {
                     return;
                 }
                 if (request == 3) {
-                    matrix[0] = new M(rowCount, columnCount);
+                    matrix[0] = new Matrix(rowCount, columnCount);
                     put(value);
                 } else {
                     put(value);
@@ -54,7 +54,7 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<M> {
         return matrix[0];
     }
 
-    public M multiply(M first, M second) {
+    public Matrix multiply(Matrix first, Matrix second) {
         return first.dotProduct(first, second);
     }
 }

@@ -7,14 +7,14 @@ import java.util.function.Supplier;
  */
 public class SparseMatrixSupplier implements Supplier<Integer> {
 
-    final private M matrix;
+    final private Matrix matrix;
     final private int columnCount;
     final private int rowCount;
     private long request = 0;
     private int currentColumn = 0;
     private int currentRow = 0;
 
-    SparseMatrixSupplier(M matrix)
+    SparseMatrixSupplier(Matrix matrix)
     {
         this.matrix = matrix;
         rowCount = matrix.getI();
