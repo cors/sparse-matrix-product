@@ -24,12 +24,18 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="my-app" />
+      </profile>
+      <profile default="false" name="Annotation profile for sparse-matrix-product-src" enabled="true">
+        <sourceOutputDir name="target\generated-sources\annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
         <module name="sparse-matrix-product-src" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="my-app" target="1.8" />
-      <module name="sparse-matrix-product-src" target="1.5" />
+      <module name="sparse-matrix-product-src" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
