@@ -1,2 +1,2 @@
 # sparse-matrix-product
-there is the sparse matrix product investigation
+the sparse matrix product investigation
