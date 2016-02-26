@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="AppTest" time="0.059" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="MatrixTest" time="0.042" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="14.1.6"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -63,6 +63,11 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86"/>
   </properties>
-  <testcase classname="AppTest" name="testApp" time="0.001"/>
-  <testcase classname="AppTest" name="testSmCreate" time="0"/>
+  <testcase classname="MatrixTest" name="testGet" time="0"/>
+  <testcase classname="MatrixTest" name="testPut" time="0.001"/>
+  <testcase classname="MatrixTest" name="testPrint" time="0"/>
+  <testcase classname="MatrixTest" name="testGetTotalOfColumns" time="0.001"/>
+  <testcase classname="MatrixTest" name="testMatrixProduct" time="0"/>
+  <testcase classname="MatrixTest" name="testGetTotalOfRows" time="0"/>
+  <testcase classname="MatrixTest" name="testVecProduct" time="0"/>
 </testsuite>

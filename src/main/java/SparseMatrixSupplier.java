@@ -6,17 +6,17 @@ import java.util.function.Supplier;
 public class SparseMatrixSupplier implements Supplier<Integer> {
 
     final private Matrix matrix;
-    final private int columnCount;
-    final private int rowCount;
+    final private int colTotal;
+    final private int rowTotal;
     private long request = 0;
-    private int currentColumn = 0;
+    private int currentCol = 0;
     private int currentRow = 0;
 
     SparseMatrixSupplier(Matrix matrix)
     {
         this.matrix = matrix;
-        rowCount = matrix.getI();
-        columnCount = matrix.getJ();
+        rowTotal = matrix.getTotalOfRows();
+        colTotal = matrix.getTotalOfColumns();
     }
 
     @Override
@@ -24,16 +24,16 @@ public class SparseMatrixSupplier implements Supplier<Integer> {
         Integer value;
         request++;
         if(request == 1)
-            return rowCount;
+            return rowTotal;
         if(request == 2)
-            return  columnCount;
+            return  colTotal;
 
-        if (currentColumn == columnCount - 1) {
-            value = matrix.get(currentRow++, currentColumn);
-            currentColumn = 0;
+        if (currentCol == colTotal - 1) {
+            value = matrix.get(currentRow++, currentCol);
+            currentCol = 0;
         }
         else
-            value = matrix.get(currentRow,currentColumn++);
+            value = matrix.get(currentRow,currentCol++);
         return value;
     }
 

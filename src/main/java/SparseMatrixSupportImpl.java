@@ -9,7 +9,7 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<Matrix> {
 
     public Stream<Integer> toStream(Matrix matrix) {
         Stream<Integer> targetStream = Stream.generate(new SparseMatrixSupplier(matrix));
-        return targetStream.limit(  matrix.getI() * matrix.getJ() + 2L);
+        return targetStream.limit(  matrix.getTotalOfRows() * matrix.getTotalOfColumns() );
     }
 
     public Matrix fromStream(Stream<Integer> stream) {
@@ -17,42 +17,49 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<Matrix> {
         final Matrix[] matrix = {null};
 
         stream.forEach(new Consumer<Integer>() {
-            long request = 0;
-            int rowCount, columnCount;
+            long query = 0;
+            int rowTotal, colTotal;
             int currentRow = 0;
-            int currentColumn = 0;
+            int currentCol = 0;
 
             @Override
             public void accept(Integer value) {
-                request++;
-                if (request == 1) {
-                    rowCount = value;
+                query++;
+                if (query == 1) {
+                    rowTotal = value;
                     return;
                 }
-                if (request == 2) {
-                    columnCount = value;
+                if (query == 2) {
+                    colTotal = value;
                     return;
                 }
-                if (request == 3) {
-                    matrix[0] = new Matrix(rowCount, columnCount);
-                    put(value);
+                if (query == 3) {
+                    matrix[0] = new Matrix(rowTotal, colTotal);
+                    if (currentCol == colTotal) {
+                        matrix[0].put(currentRow++, currentCol, value);
+                        currentCol = 0;
+                    }
+                    else {
+                        matrix[0].put(currentRow, currentCol++, value);
+                    }
                 } else {
-                    put(value);
+                    if (currentCol == colTotal) {
+                        matrix[0].put(currentRow++, currentCol, value);
+                        currentCol = 0;
+                    }
+                    else {
+                        matrix[0].put(currentRow, currentCol++, value);
+                    }
+
                 }
             }
 
-            public void put(Integer value) {
-                if (currentColumn == columnCount - 1) {
-                    matrix[0].put(currentRow++, currentColumn, value);
-                    currentColumn = 0;
-                } else matrix[0].put(currentRow, currentColumn++, value);
-            }
         });
 
         return matrix[0];
     }
 
     public Matrix multiply(Matrix first, Matrix second) {
-        return first.matrixProduct(first, second);
+        return first.matrixProduct(second);
     }
 }

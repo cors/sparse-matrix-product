@@ -1,5 +1,7 @@
-import java.util.Collections;
-import java.util.HashMap;
+import gnu.trove.map.hash.TIntIntHashMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.TIntSet;
+
 import java.util.Map;
 
 
@@ -9,96 +11,125 @@ import java.util.Map;
 
 public class Matrix {
 
-    private final int i; //rowsTotal
-    private final int j; //columnsTotal
+    private final int totalOfRows; //rowsTotal
+    private final int totalOfColumns; //columnsTotal
 
-    // основная структура данных для хранения разреженной матрицы
-    private Map<Integer, Map<Integer, Integer>> rows;
+//    private Map<Integer, Map<Integer, Integer>> rows;
 
+    private TIntObjectHashMap<TIntIntHashMap> rows;
 
-    public Matrix(int i, int j) {
-        this.i = i;
-        this.j = j;
-        rows = new HashMap<>(i);
+    public Matrix(int totalOfRows, int totalOfColumns) {
+        this.totalOfRows = totalOfRows;
+        this.totalOfColumns = totalOfColumns;
+        rows = null;
     }
 
-    public void put(int i, int j, int value) {
-
-        if (rows.get(i) == null) rows.put(i, new HashMap<>());
-
-        rows.get(i).put(j, value);
+    public void put(int rowOfMatrix, int colOfMatrix, int value) {
 
 
+        if (value == 0) {
+            return;
+        }
+
+        if (rows == null) {
+            rows = new TIntObjectHashMap<>();
+        }
+
+        TIntIntHashMap columnAndValue = null;
+        int[] colArray = {colOfMatrix};
+        int[] valArray = {value};
+
+        if (rows.get(rowOfMatrix) == null) {
+            columnAndValue = new TIntIntHashMap(colArray, valArray);
+            rows.put(rowOfMatrix, columnAndValue);
+        }
+
+        TIntIntHashMap valIntInt = rows.get(rowOfMatrix);
+        int put = valIntInt.put(colOfMatrix, value);
     }
 
-    public Integer get(int i, int j) {
-        if (rows.get(i) == null)
-            return null;
+    public int get(int rowOfMatrix, int colOfMatrix) {
+        if (rows.get(rowOfMatrix) == null)
+            return 0;
 
-        return rows.get(i).get(j);
+        return rows.get(rowOfMatrix).get(colOfMatrix);
     }
 
 
-    public int getI() {
-        return i;
+    public int getTotalOfRows() {
+        return totalOfRows;
     }
 
-    public int getJ() {
-        return j;
+    public int getTotalOfColumns() {
+        return totalOfColumns;
     }
 
-    public Matrix matrixProduct(Matrix first, Matrix second) {
-        if (first.getI() != second.getJ())
+    public Matrix matrixProduct(Matrix second) {
+        if (second.getTotalOfColumns() != getTotalOfRows())
             throw new IllegalArgumentException
-                    ("Number of columns of the first matrix must be the same as number of rows of the second matrix");
+                    ("Incorrect operation: total rows of matrix first <> total column of matrix second");
 
         Matrix secondMatrixTrans = second.mTrans();
 
-        Matrix third = new Matrix(first.getI(), second.getJ());
+        Matrix targetMatrix = new Matrix(getTotalOfRows(), second.getTotalOfColumns());
 
-        for (Integer idx_i : first.rows.keySet()) {
-            for (Integer idx_j : secondMatrixTrans.rows.keySet()) {
-                try {
-                    third.put(idx_i, idx_j, vecProduct(rows.get(idx_i), secondMatrixTrans.rows.get(idx_j)));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        int[] keysCurrent = keySet();
+        int[] keysSecondTrans = secondMatrixTrans.keySet();
+        int result = 0;
+
+        for (int i = 0; i < keysCurrent.length; i++) {
+            int rowIndex = keysCurrent[i];
+
+
+            for (int j = 0; j < keysSecondTrans.length; j++) {
+                int colIndex = keysSecondTrans[j];
+
+                result += get(rowIndex, colIndex) * secondMatrixTrans.get(rowIndex, colIndex);
+
+                targetMatrix.put(rowIndex, colIndex, result);
+
             }
         }
-        return third;
 
+
+        return targetMatrix;
     }
+
+    public int[] keySet() {
+        return rows.keys();
+    }
+
+//    public Integer vecProduct(TIntIntHashMap first_vec, TIntIntHashMap second_vec) {
+//
+//
+//        int result = 0;
+//        for (Integer idx_j : first_vec.keySet()) {
+//            if (second_vec.get(idx_j) == null)
+//                continue;
+//            result += first_vec.get(idx_j) * second_vec.get(idx_j);
+//        }
+//
+//        return result;
+//
+//
+//    }
 
     private Matrix mTrans() {
-        Matrix trans = new Matrix(j, i);
+        Matrix trans = new Matrix(totalOfColumns, totalOfRows);
 
-        for (Integer idx_i : rows.keySet()) {
-            for (Integer idx_j : rows.get(idx_i).keySet()) {
-                trans.put(idx_j, idx_i, rows.get(idx_i).get(idx_j));
-            }
-        }
-        return trans;
-
-    }
-
-    private Integer vecProduct(Map<Integer, Integer> first_vec, Map<Integer, Integer> secon_vec) {
-        if (Collections.disjoint(first_vec.keySet(), secon_vec.keySet()))
-            return null;
-        int ret = 0;
-
-        for (Integer ind_j : first_vec.keySet()) {
-            if (secon_vec.get(ind_j) == null)
-                continue;
-            ret += first_vec.get(ind_j) * secon_vec.get(ind_j);
-        }
-        return ret;
+//        for (Integer idx_i : rows.keySet()) {
+//            for (Integer idx_j : rows.get(idx_i).keySet()) {
+//                trans.put(idx_j, idx_i, rows.get(idx_i).get(idx_j));
+//            }
+//        }
+        return this;
 
     }
 
     public void print() {
         System.out.println("-----------------------------------------------");
-        for (int idx_i = 0; idx_i < i; idx_i++) {
-            for (int idx_j = 0; idx_j < j; idx_j++) {
+        for (int idx_i = 0; idx_i < totalOfRows; idx_i++) {
+            for (int idx_j = 0; idx_j < totalOfColumns; idx_j++) {
                 System.out.print(get(idx_i, idx_j) + "\t");
             }
             System.out.println();

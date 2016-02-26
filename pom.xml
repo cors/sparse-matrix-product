@@ -5,7 +5,7 @@
     <artifactId>sparse-matrix-product</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>my-app</name>
+    <name>my-app-v2</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -13,7 +13,14 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <plugins>

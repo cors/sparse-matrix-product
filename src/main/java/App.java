@@ -1,15 +1,15 @@
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  */
 public class App {
     public static void main(String[] args) {
 
-        System.out.println("-------------------=Start=--------------------------");
-
-
-        Matrix sm01 = smCreate(10, 10, 10);
-        Matrix sm02 = smCreate(10, 10, 10);
+        Matrix sm01 = smCreate(10, 5, 10);
+        Matrix sm02 = smCreate(5, 10, 10);
+//        Matrix sm01 = smCreate(1000000, 1000000, 1000);
+//        Matrix sm02 = smCreate(1000000, 1000000, 1000);
 
 
         sm01.print();
@@ -22,19 +22,21 @@ public class App {
         sm03.print();
 //
 //
-//        Matrix sm04 = smCreate(10, 10, 1000);
-//        Matrix sm05 = sparse_matrix_support.fromStream(sparse_matrix_support.toStream(sm04));
-//
-//sm05.print();
+        Matrix sm04 = smCreate(10, 10, 10);
+        sm04.print();
 
-        System.out.println("-------------------=Stop=--------------------------");
+        // to Stream
+        Stream<Integer> integerStream = sparseMatrixSupport.toStream(sm04);
+
+        // from Stream
+        Matrix sm05 = sparseMatrixSupport.fromStream(integerStream);
+
+        sm05.print();
+
+        System.out.println("End----------------------------------------------------------");
 
 
     }
-
-
-//     генерация матрицы классическим способом - генерируем случайные значения на лету и тут же
-    // скармливаем в качестве параметра методу Matrix.put
 
     static Matrix smCreate(int rowsTotal, int colTotal, int notNullTotal) {
 
