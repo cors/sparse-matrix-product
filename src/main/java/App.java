@@ -6,34 +6,31 @@ import java.util.stream.Stream;
 public class App {
     public static void main(String[] args) {
 
-        Matrix sm01 = smCreate(10, 5, 10);
-        Matrix sm02 = smCreate(5, 10, 10);
-//        Matrix sm01 = smCreate(1000000, 1000000, 1000);
-//        Matrix sm02 = smCreate(1000000, 1000000, 1000);
+        int rowsMax = 1000000;
+        int colMax = 1000000;
+
+        Matrix m = new Matrix(rowsMax, colMax);
+        Matrix b = new Matrix(rowsMax, colMax);
+
+        Random random = new Random(System.currentTimeMillis());
+
+        int notNullTotal = 2000;
+        int Low = 1;
+        int High = notNullTotal;
 
 
-        sm01.print();
-        sm02.print();
+        for (int i = 0; i < notNullTotal; i++) {
+            System.out.println(i);
 
+            m.put(random.nextInt(rowsMax), random.nextInt(colMax), random.nextInt(High - Low) + Low);
+            b.put(random.nextInt(rowsMax), random.nextInt(colMax), random.nextInt(High - Low) + Low);
+        }
 
-        SparseMatrixSupport<Matrix> sparseMatrixSupport = new SparseMatrixSupportImpl();
-        Matrix sm03 = sparseMatrixSupport.multiply(sm01, sm02);
+        Matrix target = m.matrixProduct(b);
 
-        sm03.print();
-//
-//
-        Matrix sm04 = smCreate(10, 10, 10);
-        sm04.print();
+//        target.print();
 
-        // to Stream
-        Stream<Integer> integerStream = sparseMatrixSupport.toStream(sm04);
-
-        // from Stream
-        Matrix sm05 = sparseMatrixSupport.fromStream(integerStream);
-
-        sm05.print();
-
-        System.out.println("End----------------------------------------------------------");
+        System.out.println("----------------------------------------------------------");
 
 
     }

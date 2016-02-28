@@ -1,65 +1,128 @@
 import org.junit.Test;
 
-import java.util.Random;
+import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Andrei on 26.02.2016.
  */
 public class MatrixTest {
 
+     @Test
+     public void create() {
+         Matrix m = new Matrix(2, 2);
+         m.put(0, 0, 1);
+         m.put(0, 1, 1);
+         m.put(1, 1, 1);
+
+         assertEquals(1, m.get(0, 0));
+         assertEquals(1, m.get(0, 1));
+         assertEquals(0, m.get(1, 0));
+         assertEquals(1, m.get(1, 1));
+     }
+
+     @Test
+     public void multiplyByIdentity() {
+         Matrix m = new Matrix(2, 2);
+         m.put(0, 0, 1);
+         m.put(0, 1, 2);
+         m.put(1, 1, 3);
+
+         Matrix b = new Matrix(2, 2);
+         b.put(0, 0, 1);
+         b.put(1, 1, 1);
+
+         Matrix a = m.matrixProduct(b);
+
+         assertEquals(1, a.get(0, 0));
+         assertEquals(2, a.get(0, 1));
+         assertEquals(0, a.get(1, 0));
+         assertEquals(3, a.get(1, 1));
+     }
+
+     @Test
+     public void multiplyByZero() {
+         Matrix m = new Matrix(2, 2);
+         m.put(0, 0, 1);
+         m.put(0, 1, 2);
+         m.put(1, 1, 3);
+
+         Matrix b = new Matrix(2, 2);
+
+         Matrix a = m.matrixProduct(b);
+
+         assertEquals(0, a.get(0, 0));
+         assertEquals(0, a.get(0, 1));
+         assertEquals(0, a.get(1, 0));
+         assertEquals(0, a.get(1, 1));
+     }
+
+     @Test
+     public void multiply() {
+         //  1 2
+         // -1 0
+         Matrix m = new Matrix(2, 2);
+         m.put(0, 0, 1);
+         m.put(0, 1, 2);
+         m.put(1, 0, -1);
+
+         // -1
+         // -1
+         Matrix b = new Matrix(2, 1);
+         b.put(0, 0, 1);
+         b.put(1, 0, -1);
+
+         // -1
+         // -1
+         Matrix a = m.matrixProduct(b);
+
+         assertEquals(-1, a.get(0, 0));
+         assertEquals(-1, a.get(1, 0));
+     }
+
+     @Test
+     public void equalMatrix() {
+         Matrix m = new Matrix(2, 2);
+         m.put(0, 0, 1);
+         m.put(0, 1, 2);
+         m.put(1, 0, -1);
+
+         Matrix b = new Matrix(2, 2);
+         b.put(0, 0, 1);
+         b.put(0, 1, 2);
+         b.put(1, 0, -1);
+
+         boolean eq = m.equalsMatrix(b);
+         assertTrue(eq);
+
+     }
+
     @Test
-    public void testPut() throws Exception {
+    public void fromToStream() {
 
-        Matrix matrix = new Matrix(1000000, 1000000);
+//        Matrix sm01 = App.smCreate(10, 5, 10);
+//        Matrix sm02 = App.smCreate(5, 10, 10);
+        Matrix sm01 = App.smCreate(10000, 10000, 10000);
+        // Matrix sm02 = App.smCreate(1000, 10000, 100);
 
-        Random random = new Random(System.currentTimeMillis());
-        int notNullTotal = 1000;
-        int rowsMax   = 1000000;
-        int colMax    = 1000000;
+        SparseMatrixSupport<Matrix> sparseMatrixSupport = new SparseMatrixSupportImpl();
+        // Matrix sm03 = sparseMatrixSupport.multiply(sm01, sm02);
+//        sm03.print();
 
-        int Low = 1;
-        int High = notNullTotal;
+        // to Stream
+        Stream<Integer> integerStream = sparseMatrixSupport.toStream(sm01);
 
-        for (int i = 0; i < notNullTotal; i++) {
-            matrix.put(random.nextInt(rowsMax), random.nextInt(colMax), random.nextInt(High - Low) + Low);
-        }
+        // from Stream
+        Matrix sm02 = sparseMatrixSupport.fromStream(integerStream);
+//        sm03.print();
+//        sm05.print();
 
+        boolean eq = sm01.equalsMatrix(sm02);
+        assertTrue(eq);
 
-        Matrix target = matrix.matrixProduct(matrix);
-        assertEquals(target, target);
-
-    }
-
-    @Test
-    public void testGet() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetTotalOfRows() throws Exception {
-
-    }
-
-    @Test
-    public void testGetTotalOfColumns() throws Exception {
-
-    }
-
-    @Test
-    public void testMatrixProduct() throws Exception {
-
-    }
-
-    @Test
-    public void testVecProduct() throws Exception {
-
-    }
-
-    @Test
-    public void testPrint() throws Exception {
 
     }
 }
+

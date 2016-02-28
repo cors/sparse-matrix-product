@@ -29,8 +29,9 @@ public class SparseMatrixSupplier implements Supplier<Integer> {
             return  colTotal;
 
         if (currentCol == colTotal - 1) {
-            value = matrix.get(currentRow++, currentCol);
+            value = matrix.get(currentRow, currentCol);
             currentCol = 0;
+            currentRow++;
         }
         else
             value = matrix.get(currentRow,currentCol++);

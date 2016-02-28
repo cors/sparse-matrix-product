@@ -9,7 +9,8 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<Matrix> {
 
     public Stream<Integer> toStream(Matrix matrix) {
         Stream<Integer> targetStream = Stream.generate(new SparseMatrixSupplier(matrix));
-        return targetStream.limit(  matrix.getTotalOfRows() * matrix.getTotalOfColumns() );
+        long lim = matrix.getTotalOfRows() * matrix.getTotalOfColumns() + 2;
+         return targetStream.limit(lim);
     }
 
     public Matrix fromStream(Stream<Integer> stream) {
@@ -38,16 +39,15 @@ public class SparseMatrixSupportImpl implements SparseMatrixSupport<Matrix> {
                     if (currentCol == colTotal) {
                         matrix[0].put(currentRow++, currentCol, value);
                         currentCol = 0;
-                    }
-                    else {
+                    } else {
                         matrix[0].put(currentRow, currentCol++, value);
                     }
                 } else {
-                    if (currentCol == colTotal) {
-                        matrix[0].put(currentRow++, currentCol, value);
+                    if (currentCol == colTotal - 1) {
+                        matrix[0].put(currentRow, currentCol, value);
+                        currentRow++;
                         currentCol = 0;
-                    }
-                    else {
+                    } else {
                         matrix[0].put(currentRow, currentCol++, value);
                     }
 
